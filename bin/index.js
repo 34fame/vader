@@ -3,8 +3,26 @@ const manageNodeModules = require('../lib/manage-node-modules')
 const searchReplace = require('../lib/search-replace')
 const queryFirestore = require('../lib/query-firestore')
 const resetFirestore = require('../lib/reset-firestore')
+const createProject = require('../lib/create-project')
+const destroyProject = require('../lib/destroy-project')
 
 const program = require('commander')
+
+program
+   .command('create-project')
+   .alias('cp')
+   .description('Create a new project')
+   .action(function () {
+      createProject()
+   })
+
+program
+   .command('destroy-project')
+   .alias('dp')
+   .description('Recursively deletes a project')
+   .action(function () {
+      destroyProject()
+   })
 
 program
    .command('node-modules')
@@ -32,7 +50,9 @@ program
          try {
             isValid = Array.isArray(eval(where))
          } catch (err) {
-            console.log("The WHERE parameter must be an array encapsulated in a string: \"['foo', '==', 'bar']\"")
+            console.log(
+               "The WHERE parameter must be an array encapsulated in a string: \"['foo', '==', 'bar']\""
+            )
             return false
          }
       }
@@ -42,7 +62,7 @@ program
 
 program
    .command('reset-firestore')
-   .alias('reset-fs')
+   .alias('rfs')
    .description('Wipes data & re-populates with bootstrap data')
    .action(function () {
       resetFirestore()
