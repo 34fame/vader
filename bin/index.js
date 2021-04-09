@@ -2,6 +2,8 @@
 const manageNodeModules = require('../lib/manage-node-modules')
 const searchReplace = require('../lib/search-replace')
 const queryFirestore = require('../lib/query-firestore')
+const exportFirestore = require('../lib/export-firestore')
+const importFirestore = require('../lib/import-firestore')
 const resetFirestore = require('../lib/reset-firestore')
 const createProject = require('../lib/create-project')
 const destroyProject = require('../lib/destroy-project')
@@ -58,6 +60,22 @@ program
       }
       const payload = { project, collection, where: where ? eval(where) : null }
       queryFirestore(payload)
+   })
+
+program
+   .command('export-firestore [project]')
+   .alias('exfire')
+   .description('Exports all collection data to a file')
+   .action(function (project) {
+      exportFirestore(project)
+   })
+
+program
+   .command('import-firestore [project] [file]')
+   .alias('imfire')
+   .description('Imports data into Firestore')
+   .action(function (project, file) {
+      importFirestore(project, file)
    })
 
 program
